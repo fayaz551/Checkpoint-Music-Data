@@ -24,11 +24,19 @@ picker.addEventListener("change", (e) => {
     const stats = calculateStats(listens, getSong);
 
     if (!stats) {
-        display.hidden = true;
+        display.hidden = false;
+        document.getElementById("no-data-message").hidden = false;
+        // Hide all question articles
+        document.querySelectorAll("article").forEach(article => {
+            if (article.id.startsWith("q-")) {
+                article.hidden = true;
+            }
+        });
         return;
     }
 
     display.hidden = false;
+    document.getElementById("no-data-message").hidden = true;
 
     updateUI("q-song-count", "val-song-count", stats.topSongCount ? `${stats.topSongCount.artist} - ${stats.topSongCount.title}` : null);
     updateUI("q-song-time", "val-song-time", stats.topSongTime ? `${stats.topSongTime.artist} - ${stats.topSongTime.title}` : null);
