@@ -51,3 +51,13 @@ picker.addEventListener("change", (e) => {
         updateUI("q-genres", "val-genres", null);
     }
 });
+
+function updateUI(containerId, textId, value) {
+    const container = document.getElementById(containerId);
+    if (value) {
+        document.getElementById(textId).textContent = value;
+        container.hidden = false;
+    } else {
+        container.hidden = true;
+    }
+}
