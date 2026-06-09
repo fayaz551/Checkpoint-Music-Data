@@ -1,8 +1,10 @@
 import { getUserIDs, getListenEvents, getSong } from "./data.mjs";
 import { calculateStats } from "./common.mjs";
 
-const picker = document.getElementById("user-picker");
+const picker = document.getElementById("user-select");
 const display = document.getElementById("stats-display");
+
+picker.innerHTML = '<option value="">--Select User--</option>';
 
 getUserIDs().forEach(id => {
     const opt = document.createElement("option");
@@ -18,8 +20,7 @@ picker.addEventListener("change", (e) => {
         return;
     }
 
-    const eventsData = getListenEvents(userId);
-    const listens = eventsData[userId];
+    const listens = getListenEvents(userId);
     const stats = calculateStats(listens, getSong);
 
     if (!stats) {
@@ -36,15 +37,26 @@ picker.addEventListener("change", (e) => {
     updateUI("q-friday-count", "val-friday-count", stats.topFridayCount ? `${stats.topFridayCount.artist} - ${stats.topFridayCount.title}` : null);
     updateUI("q-friday-time", "val-friday-time", stats.topFridayTime ? `${stats.topFridayTime.artist} - ${stats.topFridayTime.title}` : null);
     
-    const streakInfo = stats.maxStreak > 0 ? `${stats.streakSongs.map(s => s.title).join(", ")} (${stats.maxStreak} in a row)` : null;
+    let streakInfo = null;
+    if (stats.maxStreak > 0 && stats.streakSongs && stats.streakSongs.length > 0) {
+        streakInfo = stats.streakSongs
+            .map(s => `${s.artist} - ${s.title} (length: ${stats.maxStreak})`)
+            .join(", ");
+    }
     updateUI("q-streak", "val-streak", streakInfo);
 
-    const everyDayInfo = stats.everyDaySongs.length > 0 ? stats.everyDaySongs.map(s => s.title).join(", ") : null;
+    const everyDayInfo = stats.everyDaySongs && stats.everyDaySongs.length > 0 
+        ? stats.everyDaySongs.map(s => `${s.artist} - ${s.title}`).join(", ") 
+        : null;
     updateUI("q-everyday", "val-everyday", everyDayInfo);
 
-    if (stats.topGenres.length > 0) {
+    if (stats.topGenres && stats.topGenres.length > 0) {
         const n = Math.min(stats.topGenres.length, 3);
-        const titles = { 1: "Top Genre", 2: "Top Two Genres", 3: "Top Three Genres" };
+        const titles = { 
+            1: "Top Genre", 
+            2: "Top Two Genres", 
+            3: "Top Three Genres" 
+        };
         document.getElementById("genre-title").textContent = titles[n];
         updateUI("q-genres", "val-genres", stats.topGenres.slice(0, n).join(", "));
     } else {
@@ -54,7 +66,7 @@ picker.addEventListener("change", (e) => {
 
 function updateUI(containerId, textId, value) {
     const container = document.getElementById(containerId);
-    if (value) {
+    if (value && value !== "") {
         document.getElementById(textId).textContent = value;
         container.hidden = false;
     } else {
