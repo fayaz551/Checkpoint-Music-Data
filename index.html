@@ -1,8 +1,60 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <script type="module" src="script.mjs"></script>
-  </head>
-  <body>
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="./main.js"></script>
+    <title>Music Wrap</title>
+</head>
+<body>
+    <header>
+        <h1>User Music Statistics</h1>
+    </header>
+    <main>
+        <label for="user-picker">Select a user:</label>
+        <select id="user-picker">
+            <option value="">--Select User--</option>
+        </select>
+
+        <section id="stats-display" hidden>
+            <article id="q-song-count">
+                <h2>Most Listened Song (Count)</h2>
+                <p id="val-song-count"></p>
+            </article>
+            <article id="q-song-time">
+                <h2>Most Listened Song (Time)</h2>
+                <p id="val-song-time"></p>
+            </article>
+            <article id="q-artist-count">
+                <h2>Most Listened Artist (Count)</h2>
+                <p id="val-artist-count"></p>
+            </article>
+            <article id="q-artist-time">
+                <h2>Most Listened Artist (Time)</h2>
+                <p id="val-artist-time"></p>
+            </article>
+            <article id="q-friday-count">
+                <h2>Friday Night Favorite (Count)</h2>
+                <p id="val-friday-count"></p>
+            </article>
+            <article id="q-friday-time">
+                <h2>Friday Night Favorite (Time)</h2>
+                <p id="val-friday-time"></p>
+            </article>
+            <article id="q-streak">
+                <h2>Longest Listen Streak</h2>
+                <p id="val-streak"></p>
+            </article>
+            <article id="q-everyday">
+                <h2>Every Day Songs</h2>
+                <p id="val-everyday"></p>
+            </article>
+            <article id="q-genres">
+                <h2 id="genre-title">Top Genres</h2>
+                <p id="val-genres"></p>
+            </article>
+        </section>
+    </main>
+    
+</body>
 </html>
